@@ -1,8 +1,7 @@
 ---
 # tasks file for deploy_apache_web
-  tasks:
-  - name: Check Print Linux Version
-    debug: var=ansible_os_family
+#  - name: Check Print Linux Version
+#    debug: var=ansible_os_family
 
   - block: # REDHAT BCLOK
 
