@@ -6,7 +6,7 @@ node01	ansible_host=192.168.252.129
 node02	ansible_host=192.168.252.130
 
 [localvm3]
-node03	ansible_host=192.168.252.*
+#node03	ansible_host=192.168.252.131
 
 [ALL_LOCALVM:children]
 localvm1
