@@ -1,2 +1,15 @@
 ---
 # handlers file for deploy_apache_web
+  - name: Restart Apache
+    service: name=httpd state=restarted
+    when: ansible_os_family == "RedHat"
+
+  - name: Restart Apache
+    service: name=apache2 state=restarted
+    when: ansible_os_family == "Debian"
+
+  - name: Reload Firewall RedHat
+    service: name=firewalld state=reloaded
+
+  - name: Reload Firewall Debian
+    service: name=ufw state=reloaded
