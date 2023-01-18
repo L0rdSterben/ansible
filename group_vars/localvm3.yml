@@ -1,0 +1,6 @@
+---
+
+ansible_user                 : user01
+ansible_ssh_private_key_file : /home/fedostsev/.ssh/node03
+owner                        : Winston
+...

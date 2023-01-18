@@ -1,7 +1,21 @@
 
-[localvm]
-node01	ansible_host=192.168.252.129	ansible_ssh_private_key_file=/home/fedostsev/.ssh/node01
-node02	ansible_host=192.168.252.130	ansible_ssh_private_key_file=/home/fedostsev/.ssh/node02
+[localvm1]
+node01	ansible_host=192.168.252.129
 
-[localvm:vars]
-ansible_user=fedostsev
+[localvm2]
+node02	ansible_host=192.168.252.130
+
+[localvm3]
+node03	ansible_host=192.168.252.*
+
+[ALL_LOCALVM:children]
+localvm1
+localvm2
+localvm3
+
+[ALL_LOCALVM_REDHAT:children]
+localvm1
+localvm2
+
+[ALL_LOCALVM_DEBIAN:children]
+localvm3

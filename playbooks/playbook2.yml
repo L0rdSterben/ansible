@@ -1,0 +1,20 @@
+
+---
+- name: Install default Apache Web Server
+  hosts: all
+  become: yes
+
+  tasks:
+  - name: Install Apache Web Server
+    yum:  name=httpd state=latest
+
+  - name: Enable daemon and start Apache
+    service: name=httpd state=started enabled=yes
+
+  - name: Add HTTP-service to firewall
+    ansible.posix.firewalld: service=http permanent=yes state=enabled
+
+  - name: Reload firewall
+    ansible.builtin.service: name=firewalld state=reloaded
+
+...

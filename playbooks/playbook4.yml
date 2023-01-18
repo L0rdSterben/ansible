@@ -1,0 +1,38 @@
+
+---
+- name: Variables
+  hosts: all
+  become: yes
+
+  vars:
+    message1: Hi!
+    message2: World
+    secret: QWERTY!
+
+  tasks:
+
+  - name: Print Secret variable
+    debug:
+      var: secret
+
+  - debug:
+      msg: "Secret Key: {{ secret }}}"
+
+  - debug:
+      msg: "Server Ownder -->{{ owner }}<--"
+
+  - set_fact: full_message="{{ message1 }} {{ message2 }} from {{ owner }}"
+
+  - debug:
+      var: full_message
+
+  - debug:
+      var: ansible_distribution
+
+  - shell: uptime
+    register: results
+
+  - debug:
+      var: results.stdout
+
+...

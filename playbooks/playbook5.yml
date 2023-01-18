@@ -1,0 +1,57 @@
+
+---
+- name: Install Apache and upload Web Page
+  hosts: all
+  become: yes
+
+  vars:
+    source_file: ../MyWebSite/index.html
+    destin_file: /var/www/html/
+
+  tasks:
+  - name: Check Print Linux Version
+    debug: var=ansible_os_family
+
+  - name: Install Apache Web Server for RedHat
+    yum: name=httpd state=latest
+    when: ansible_os_family == "RedHat"
+
+  - name: Install Apache Web Server for Debian
+    apt: name=apache2 state=latest
+    when: ansible_os_family == "Debian"
+
+  - name: Copy MyHomePage to Servers
+    copy: src={{ source_file }} dest={{ destin_file }} mode=0555
+    notify: Restart Apache
+
+  - name: Start WebServer and make it enable on boot for RedHat
+    service: name=httpd state=started enabled=yes
+    when: ansible_os_family == "RedHat"
+
+  - name: Start WebServer and make it enable on boot for Debian
+    service: name=apache2 state=started enabled=yes
+    when: ansible_os_family == "Debian"
+
+  - name: Add HTTP-service to firewall RedHat
+    firewalld: service=http permanent=yes state=enabled
+    when: ansible_os_family == "RedHat"
+    notify: Reload Firewall RedHat
+
+  - name: Add HTTP-service to firewall Debian
+    ufw: rule=allow name=Apache state=enabled
+    when: ansible_os_family == "Debian"
+    notify: Reload Firewall Debian
+
+
+  handlers:
+  - name: Restart Apache
+    service: name=httpd state=restarted
+
+  - name: Reload Firewall RedHat
+    service: name=firewalld state=reloaded
+
+  - name: Reload Firewall Debian
+    service: name=ufw state=reloaded
+
+
+...
